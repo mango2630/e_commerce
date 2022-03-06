@@ -1,5 +1,4 @@
-
-import requests from "./request";
+import requests from "./requestAjax";
 import mockRequests from './mockAjax'
 
 // 三级联动接口
@@ -22,3 +21,12 @@ export const reqGetBannerList = () => {
 
 // 获取floor数据
 export const reqFloorList = () => mockRequests.get('/floor')
+
+// 获取搜索模块数据 /api/list post
+export const reqGetSearchInfo = (params) => {
+    return requests({
+        url: '/list',
+        method: 'POST',
+        data: params
+    })
+}

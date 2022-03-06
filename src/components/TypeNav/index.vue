@@ -80,8 +80,8 @@ export default {
         }
     },
     mounted(){
-        if(this.$route.path == '/search'){
-            this.show = false;
+        if(this.$route.path != '/home'){
+            this.show = true;
         }
     },
     computed:{
