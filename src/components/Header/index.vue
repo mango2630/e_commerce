@@ -57,6 +57,11 @@ export default {
             keyword: ''
         }
     },
+    mounted(){
+        this.$bus.$on('clear', ()=>{
+            this.keyword = ''
+        })
+    },
     methods: {
         goSearch(){
             // this.$router.push('/search');

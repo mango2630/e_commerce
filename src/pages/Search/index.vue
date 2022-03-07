@@ -6,20 +6,29 @@
         <!--bread:面包屑-->
         <div class="bread">
             <ul class="fl sui-breadcrumb">
-            <li>
-                <a href="#">全部结果</a>
-            </li>
+                <li>
+                    <a href="#">全部结果</a>
+                </li>
             </ul>
             <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+                <li class="with-x" v-if="searchParams.categoryName">{{searchParams.categoryName}}
+                    <i @click="removeCategoryName" >×</i>
+                </li>
+                <li class="with-x" v-if="searchParams.keyword">{{searchParams.keyword}}
+                    <i @click="removeKeyword" >×</i>
+                </li>
+                <li class="with-x" v-if="searchParams.trademark">{{searchParams.trademark.split(":")[1]}}
+                    <i @click="removeTradmark" >×</i>
+                </li>
+                <li class="with-x" v-for="(attrValue, index) in  searchParams.props" :key="index">{{attrValue.split(":")[1]}}
+                    <i @click="removeTradmark" >×</i>
+                </li>
             </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="trademarkInfo"
+        @attrInfo='attrInfo' />
 
         <!--details-->
         <div class="details clearfix">
@@ -167,6 +176,55 @@
     methods: {
         getData(){
             this.$store.dispatch('getSearchList', this.searchParams)
+        },
+        removeCategoryName(){
+        
+            this.searchParams.categoryName = undefined;
+            this.searchParams.category1Id = undefined;
+            this.searchParams.category2Id = undefined;
+            this.searchParams.category3Id = undefined;
+            this.getData();
+
+            if(this.$route.params){
+                this.$router.push({
+                    name: 'search',
+                    params: this.$route.params
+                })
+            }
+        },
+        removeKeyword(){
+            this.searchParams.keyword = undefined;
+            this.$bus.$emit("clear");
+            this.getData();
+            // 通知Header 清楚keyword
+        
+            if(this.$route.query){
+                this.$router.push({
+                    name: 'search',
+                    query: this.$route.query
+                })
+            }
+        },
+        trademarkInfo(item){
+            // 自定义事件回调
+            console.log(item);
+
+            // 整理参数
+            this.searchParams.trademark = `${item.tmId}:${item.tmName}`;
+            this.getData();
+
+        },
+        removeTradmark(){
+            this.searchParams.trademark = undefined;
+            this.getData();
+        },
+        attrInfo(item, attr){
+            // [id:value:name]
+            console.log(item, attr);
+            let arr = `${item.attrId}:${attr}:${item.attrName}`;
+            console.log(arr);
+            this.searchParams.props.push(arr)
+            this.getData();
         }
     },
     watch: {
