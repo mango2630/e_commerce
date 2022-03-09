@@ -5,10 +5,12 @@ import App from './App.vue'
 // 三级联动组件 --- 全局组件
 import TypeNav from '@/components/TypeNav'
 import Carouse from '@/components/Carouse'
+import Pagination from '@/components/Pagination'
 
 // (全局组件名字，哪一个组件)
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carouse.name, Carouse)
+Vue.component(Pagination.name, Pagination)
 
 // 引入路由
 import router from '@/router'

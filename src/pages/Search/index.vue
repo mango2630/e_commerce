@@ -21,7 +21,7 @@
                     <i @click="removeTradmark" >×</i>
                 </li>
                 <li class="with-x" v-for="(attrValue, index) in  searchParams.props" :key="index">{{attrValue.split(":")[1]}}
-                    <i @click="removeTradmark" >×</i>
+                    <i @click="removeAttr(index)" >×</i>
                 </li>
             </ul>
         </div>
@@ -35,24 +35,24 @@
             <div class="sui-navbar">
             <div class="navbar-inner filter">
                 <ul class="sui-nav">
-                <li class="active">
-                    <a href="#">综合</a>
-                </li>
-                <li>
-                    <a href="#">销量</a>
-                </li>
-                <li>
-                    <a href="#">新品</a>
-                </li>
-                <li>
-                    <a href="#">评价</a>
-                </li>
-                <li>
-                    <a href="#">价格⬆</a>
-                </li>
-                <li>
-                    <a href="#">价格⬇</a>
-                </li>
+                    <li :class="{active: isOne}" @click="changeOrder(1)">
+                        <a>
+                            综合
+                            <span v-show="isOne">
+                                <span v-show="isAsc" >⬆</span>
+                                <span v-show="isDesc">⇩</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li :class="{active:isTwo}" @click="changeOrder(2)">
+                        <a>
+                            价格
+                            <span v-show="isTwo">
+                                <span v-show="isAsc" >⬆</span>
+                                <span v-show="isDesc">⇩</span>
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             </div>
@@ -85,35 +85,13 @@
                 </li>
             </ul>
             </div>
-            <div class="fr page">
-            <div class="sui-pagination clearfix">
-                <ul>
-                <li class="prev disabled">
-                    <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                    <a href="#">1</a>
-                </li>
-                <li>
-                    <a href="#">2</a>
-                </li>
-                <li>
-                    <a href="#">3</a>
-                </li>
-                <li>
-                    <a href="#">4</a>
-                </li>
-                <li>
-                    <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                    <a href="#">下一页»</a>
-                </li>
-                </ul>
-                <div><span>共10页&nbsp;</span></div>
-            </div>
-            </div>
+
+            <Pagination 
+            :pageNo='searchParams.pageNo'
+            :pageSize="searchParams.pageSize"
+            :total="total"
+            :continues="5" 
+            @getPageNo = "getPageNo" />
         </div>
         
         </div>
@@ -123,7 +101,7 @@
 
 <script>
     import SearchSelector from './SearchSelector/SearchSelector'
-    import {mapGetters} from 'vuex'
+    import {mapGetters, mapState} from 'vuex'
     // getters 不分模块
 
     export default {
@@ -156,7 +134,23 @@
         SearchSelector
     },
     computed:{
-        ...mapGetters(['goodsList'])
+        ...mapGetters(['goodsList']),
+        isOne(){
+            return this.searchParams.order.indexOf(1) != -1
+        },
+        isTwo(){
+            return this.searchParams.order.indexOf(2) != -1
+        },
+        isDesc(){
+            return this.searchParams.order.indexOf('desc') != -1; 
+        },
+        isAsc(){
+            return this.searchParams.order.indexOf('asc') != -1; 
+        },
+        ...mapState({
+            // state 区分 组件
+            total: state => state.search.searchList.total
+        })
     },
     beforeMount(){
         this.searchParams.category1Id = this.$route.query.categoryId1;
@@ -223,13 +217,50 @@
             console.log(item, attr);
             let arr = `${item.attrId}:${attr}:${item.attrName}`;
             console.log(arr);
-            this.searchParams.props.push(arr)
+
+            // 数组去重
+            if(this.searchParams.props.indexOf(arr) == -1){
+                this.searchParams.props.push(arr)
+                this.getData();
+            }
+        },
+        removeAttr(index){
+            // 移出售卖属性
+            this.searchParams.props.splice(index, 1);
+            this.getData()
+        },
+        changeOrder(flag){
+            // flag：代表用户点击的是综合还是价格！
+            let originFlag = this.searchParams.order.split(":")[0];
+            let originOrder= this.searchParams.order.split(":")[1];
+            let newOrder = ''
+            console.log(originOrder);
+            if(flag == originFlag){ // 数字1，字符串1
+                // 点击综合
+                /* if(originOrder == 'desc'){
+                    newOrder = 'asc';
+                }else{
+                    newOrder = 'desc'
+                }
+                this.searchParams.order = `${flag}:${newOrder}`; */
+
+                newOrder = `${originFlag}:${originOrder=='desc'?'asc':'desc'}`;
+            }else {
+                // 点击价格
+                newOrder = `${flag}:${'desc'}`;
+            }
+
+            this.searchParams.order = newOrder;
+            // console.log(newOrder);
+            this.getData();
+        },
+        getPageNo(pageNo){
+            this.searchParams.pageNo = pageNo;
             this.getData();
         }
     },
     watch: {
         $route(newValue, oldValue){
-
             this.searchParams.category1Id = '';
             this.searchParams.category2Id = '';
             this.searchParams.category3Id = '';
