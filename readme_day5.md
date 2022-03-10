@@ -51,3 +51,29 @@ order: "1:desc"
 
 
 ### 5. 产品的详情页
+1. 静态组件（注册路由组件）
+2. 发请求
+3. vuex
+4. 动态显示
+
+当点击商品的图片的时候，跳转到详情页，并且路由跳转带商品id。
+params传参。
+
+
+#### 5.1 问题
+1. 如何控制滚轮开始在顶端？
+   - vue-router 的 滚动行为。
+   - [scroll Behavior](https://v3.router.vuejs.org/guide/advanced/scroll-behavior.html#async-scrolling)
+2. getters undefined问题
+
+
+#### 5.2 ZOOM放大镜
+1. porps三种写法？？
+2. undefined .... skuImageList..
+
+干的事：
+1. 传参请求
+2. 放大镜图片、轮播图图片
+3. 属性展示
+
+

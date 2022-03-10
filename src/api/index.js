@@ -30,3 +30,11 @@ export const reqGetSearchInfo = (params) => {
         data: params
     })
 }
+
+// 获取商品详情信息 /api/item/{skuId} get
+export const reqGoodsInfo = (skuId) => {
+    return requests({
+        url: `/item/${skuId}`,
+        method: 'GET'
+    })
+}
