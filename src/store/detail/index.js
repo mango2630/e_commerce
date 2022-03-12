@@ -1,7 +1,8 @@
-import {reqGoodsInfo} from '@/api/index'
-
+import {reqGoodsInfo, reqAddOrUpdateShopCart} from '@/api/index'
+import {getUUID} from '@/utils/uuid_token'
 const state = {
-    goodInfo: {}
+    goodInfo: {},
+    uuid_token: getUUID()
 }
 
 const actions = {
@@ -10,6 +11,16 @@ const actions = {
         if(res.code == 200){
             console.log('detail return data', res.data);
             commit('GETGOODSINFO', res.data)
+        }
+    },
+
+    // 将产品加入到购物车中
+    async addOrUpdateShopCart({commit}, {skuId, skuNum}){
+        let res = await reqAddOrUpdateShopCart(skuId, skuNum)
+        if(res.code == 200){
+            return 'OK'
+        }else {
+            return Promise.reject(new Error('faile'));
         }
     }
 }

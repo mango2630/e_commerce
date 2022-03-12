@@ -22,6 +22,7 @@ VueRouter.prototype.push = function(location, resolve, reject){
 export default new VueRouter({
     routes,
     scrollBehavior (to, from, savedPosition) {
+        // 滚轮！
         // return desired position
         return {y:0}
     }

@@ -38,3 +38,21 @@ export const reqGoodsInfo = (skuId) => {
         method: 'GET'
     })
 }
+
+// 将产品加入到购物车中
+// api/cart/addToCart/{skuId}/{skuNum} POST
+export const reqAddOrUpdateShopCart = (skuId, skuNum)=>{
+    return requests({
+        url: `/cart/addToCart/${skuId}/${skuNum}`,
+        method: 'POST'
+    })
+}
+
+// 获取购物车列表数据接口
+// /cart/cartList get
+export const reqCartList = () => {
+    return requests({
+        url: '/cart/cartList',
+        method: 'GET'
+    })
+}

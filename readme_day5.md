@@ -56,6 +56,10 @@ order: "1:desc"
 3. vuex
 4. 动态显示
 
+---
+1. 属性：点谁谁高亮！！
+---
+
 当点击商品的图片的时候，跳转到详情页，并且路由跳转带商品id。
 params传参。
 
@@ -70,10 +74,44 @@ params传参。
 #### 5.2 ZOOM放大镜
 1. porps三种写法？？
 2. undefined .... skuImageList..
+3. swiper 使用
+4. 点谁谁加 边框
+5. offsetX ......
+6. 练习！！！！！
 
 干的事：
 1. 传参请求
 2. 放大镜图片、轮播图图片
 3. 属性展示
 
+#### 5.3 ImageList 
+1. $nextTick
+  - 在修改数据之后立即使用这个方法。
 
+2. 兄弟传参
+   zoome 与 ImageList 之间传递Image
+   - Pubsub
+   - 自定义事件（子给父）
+   - 全局事件总线（兄弟）
+
+3. Swiper
+
+### 加入购物车
+
+1. 加入购物车按钮
+   - 路由跳转之前发请求
+   - 成功路由跳转与参数传递
+   - 浏览器存储共呢个：HTML5新增；本地存储和会话存储。
+     - 本地存储：持久化的 （5M）。
+     - 会话存储：并非持久化。
+     - 存储的为：字符串。
+
+2. 购物车
+3. nanoid uuid 临时游客身份
+   uuidv4()
+   utils --- 放工具
+   if(store.state.detail.uuid_token){
+        config.headers.userTempId = store.state.detail.uuid_token;
+    }
+
+  

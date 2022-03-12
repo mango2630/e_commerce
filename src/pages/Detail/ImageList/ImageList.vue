@@ -1,8 +1,12 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container" ref="cur">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="slider in imgObj" :key="slider.id">
-        <img :src="slider.imgUrl">
+      <div class="swiper-slide" 
+        v-for="(slider, index) in imgObj" 
+        :key="slider.id">
+        <img :src="slider.imgUrl" 
+        :class="{active: currentIndex == index}"
+        @click="changeIndex(index)">
       </div>
     </div>
     <div class="swiper-button-next"></div>
@@ -15,10 +19,38 @@
   import Swiper from 'swiper'
   export default {
     name: "ImageList",
+    data(){
+      return {
+        currentIndex: 0
+      }
+    },
     props: ['skuImageList'],
     computed: {
       imgObj(){
         return this.skuImageList || {}
+      }
+    },
+    watch:{
+      skuImageList(newValue, oldValue){
+        this.$nextTick(()=>{
+          new Swiper(this.$refs.cur, {
+              // 如果需要前进后退按钮
+              navigation: {
+                  nextEl: ".swiper-button-next",
+                  prevEl: ".swiper-button-prev",
+              },
+
+              slidesPerView: 3,
+              slidesPerGroup: 1
+          })
+        })
+      }
+    },
+    methods: {
+      changeIndex(index){
+        this.currentIndex = index;
+
+        this.$bus.$emit('getIndex', this.currentIndex)
       }
     }
   }
@@ -45,11 +77,6 @@
         display: block;
 
         &.active {
-          border: 2px solid #f60;
-          padding: 1px;
-        }
-
-        &:hover {
           border: 2px solid #f60;
           padding: 1px;
         }

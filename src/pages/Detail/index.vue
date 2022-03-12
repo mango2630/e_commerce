@@ -67,10 +67,12 @@
                 v-for="spuSaleAttr in spuSaleAttrList"
                 :key="spuSaleAttr.id"
               >
-                <dt class="title">{{ spuSaleAttr.saleAttrName }}</dt>
+                <dt class="title">
+                  {{ spuSaleAttr.saleAttrName }}
+                </dt>
                 <dd
                   changepirce="0"
-                  :class="{ active: spuSaleAttrValue.isChecked == 1 }"
+                  :class="{active: spuSaleAttrValue.isChecked == 1}"
                   v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList"
                   :key="spuSaleAttrValue.id"
                   @click="
@@ -84,14 +86,15 @@
                 </dd>
               </dl>
             </div>
+            <!-- 加入购物车 -->
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" @change="changeSkuNum" class="itxt" v-model="skuNum" >
+                <a href="javascrip:" @click="skuNum ++" class="plus">+</a>
+                <a href="javascrip:" @click="skuNum>1 ? skuNum -- : skuNum = 1" class="mins">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="addShopcar">加入购物车</a>
               </div>
             </div>
           </div>
@@ -347,7 +350,11 @@
   import {mapGetters} from 'vuex'
   export default {
     name: 'Detail',
-    
+    data(){
+      return {
+        skuNum: 1
+      }
+    },
     components: {
       ImageList,
       Zoom
@@ -363,10 +370,45 @@
       }
     },
     methods: {
-      getData(){
-
+      // 产品的售卖属性值切换高亮！ 
+      changeActive(saleAttrValue, arr){
+        arr.forEach(item => {
+          item.isChecked = 0;
+        })
+        saleAttrValue.isChecked = 1;
+      },
+      changeSkuNum(event){
+        // 修改产品个数
+        /*  
+          字符串 * 1 = NaN
+        */
+        let value = event.target.value * 1;
+        //如果用户输入进来的非法,出现NaN或者小于1
+        if (isNaN(value) || value < 1) {
+          this.skuNum = 1;
+        } else {
+          //正常大于1【大于1整数不能出现小数】
+          this.skuNum = parseInt(value);
+        }
+      },
+      async addShopcar(){
+        try{
+          await this.$store.dispatch('addOrUpdateShopCart', {
+            skuId: this.$route.params.skuId,
+            skuNum: this.skuNum
+          })
+          /* 
+            1. 一些简单的数据通过 query传。
+            2. 一些产品信息的数据，通过会话存储。
+          */
+          sessionStorage.setItem("SKUINFO", JSON.stringify(this.skuInfo))
+          this.$router.push({name: 'addcartsuccess', query: {skuNum:this.skuNum}})
+        }catch(err) {
+          console.log(err.message);
+        }
       }
-    }
+    },
+    
   }
 </script>
 
