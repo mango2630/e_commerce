@@ -1,4 +1,4 @@
-import {reqGoodsInfo, reqAddOrUpdateShopCart} from '@/api/index'
+import {reqGoodsInfo, reqAddOrUpdateShopCart, } from '@/api/index'
 import {getUUID} from '@/utils/uuid_token'
 const state = {
     goodInfo: {},

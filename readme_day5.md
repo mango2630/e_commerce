@@ -113,5 +113,14 @@ params传参。
    if(store.state.detail.uuid_token){
         config.headers.userTempId = store.state.detail.uuid_token;
     }
+4. 修改产品个数
+5. 删除购物车产品
+---
 
-  
+1. 删除选中的全部商品
+2. 全选状态
+
+### 登录 注册
+1. 静态组件
+2. 
+
