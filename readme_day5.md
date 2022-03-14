@@ -121,6 +121,10 @@ params传参。
 2. 全选状态
 
 ### 登录 注册
-1. 静态组件
-2. 
+1. 注册：
+2. 登录; 阻止默认行为.prevent
+   ~~~ html
+   <button @click.prevent="userLogin" class="btn">登&nbsp;&nbsp;录</button>
+   ~~~
+3. token
 
