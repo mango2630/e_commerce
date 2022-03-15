@@ -25,7 +25,7 @@ const actions = {
     },
     async getFloorList({commit}){
         let res = await reqFloorList();
-        console.log('++', res.data);
+        // console.log('++', res.data);
         if(res.code === 200){
             commit('GETFLOORLIST', res.data)
         }

@@ -23,10 +23,17 @@ const requests = axios.create({
 requests.interceptors.request.use((config)=>{
     // config: 配置对象
     // 对象里面有一个属性很重要，headers请求头
-    console.log(config);
-    console.log(store); // vuex
+    // console.log('requestAjax.js-----config', config);
+    // console.log('requestAjax.js----store', store); // vuex
+
+    // 游客登陆
     if(store.state.detail.uuid_token){
         config.headers.userTempId = store.state.detail.uuid_token;
+    }
+    // 用户登录
+    if(store.state.user.token){
+        config.headers.token = store.state.user.token;
+        // config.headers.token = localStorage.getItem('TOKEN')
     }
 
     nprogress.start()

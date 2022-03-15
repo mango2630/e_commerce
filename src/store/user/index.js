@@ -1,10 +1,12 @@
 // 登录 与 注册
 
-import {reqGetCode, reqRegister,reqLogin} from '@/api'
+import {reqGetCode, reqRegister, reqLogin, reqUserInfo,reqLogout} from '@/api'
+import {setToken, getToken, removeToke} from '@/utils/token'
 
 const state = {
     code: '',
-    token: ''
+    token: getToken(),
+    userInfo: {}
 }
 
 const actions = {
@@ -37,13 +39,33 @@ const actions = {
              //用户已经登录成功且获取到token
             commit("USERLOGIN", res.data.token);
             //持久化存储token
-            // setToken(result.data.token);
+            // localStorage.setItem('TOKEN', res.data.token);
+            setToken(res.data.token)
             return "ok";
         } else {
             return Promise.reject(new Error("faile"));
         }
     },
-
+    async getUserInfo({commit}){
+        let res = await reqUserInfo();
+        // console.log('user/index.js-----getUserinfo', res);
+        // 进入Home之后派发请求
+        if(res.code == 200){
+            commit('GETUSERINFO', res.data);
+            return 'ok';
+        }else{
+            return Promise.reject(new Error('faile'))
+        }
+    },
+    async userLogout({commit}){
+        let res = await reqLogout();
+        if(res.code == 200){
+            commit('USERLOGOUT')
+            return 'ok'
+        }else{
+            return Promise.reject(new Error('faile'))
+        }
+    }
 }
 
 const mutations = {
@@ -52,6 +74,15 @@ const mutations = {
     },
     USERLOGIN(state, token){
         state.token = token
+    },
+    GETUSERINFO(state, data){
+        state.userInfo = data;
+    },
+    USERLOGOUT(state){
+        // 清楚本地数据
+        state.token = {};
+        state.userInfo = {};
+        removeToke();
     }
 }
 

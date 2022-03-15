@@ -102,3 +102,53 @@ export const reqLogin = (data) => {
         method: 'POST'
     })
 }
+
+// 获取用户信息 带token
+// /user/passport/auth/getUserInfo method:get
+export const reqUserInfo = () => {
+    return requests({
+        url: '/user/passport/auth/getUserInfo',
+        method: 'GET'
+    })
+}
+
+// 退出登录
+export const reqLogout = ()=>{
+    return requests({
+        url: '/user/passport/logout',
+        method: 'GET'
+    })
+}
+
+// 获取用户地址信息
+export const reqAddressInfo = () => {
+    return requests({
+        url: '/user/userAddress/auth/findUserAddressList',
+        method: 'GET'
+    })
+}
+
+// 获取商品清单
+export const reqOrderInfo = () => {
+    return requests({
+        url: '/order/auth/trade',
+        method: 'GET'
+    })
+}
+
+// 提交订单
+export const reqSubmitOrder = (tradeNo, data) => {
+    return requests({
+        url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+        data,
+        method: 'POST'
+    })
+}
+
+// 获取订单支付信息
+export const reqPayInfo = (orderId) => {
+    return requests({
+        url: `/payment/weixin/createNative/${orderId}`,
+        method: 'GET'
+    })
+}

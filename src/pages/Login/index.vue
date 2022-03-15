@@ -78,7 +78,7 @@
       async userLogin(){
         try{
           const {phone, password} = this;
-        phone && password && await this.$store.dispatch('userLogin', {phone, password})
+          phone && password && await this.$store.dispatch('userLogin', {phone, password})
           // 成功
           this.$router.push('/home')
         }catch(error){

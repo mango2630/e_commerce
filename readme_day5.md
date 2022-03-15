@@ -126,5 +126,27 @@ params传参。
    ~~~ html
    <button @click.prevent="userLogin" class="btn">登&nbsp;&nbsp;录</button>
    ~~~
-3. token
+3. token 【截取】
+   ~~~ js
+   // 用户登录
+    if(store.state.user.token){
+        config.headers.token = store.state.user.token;
+    }
+    ~~~
+4. vuex存储数据是非持久化的
+5. 持久化存储token
+6. 退出登录
 
+### 导航守卫
+- 全局守卫
+- 路由独享守卫
+- 组件内守卫
+- `router/index.js`
+
+### trade页面
+
+### pay页面
+
+- 立即支付
+- 引入element-ui
+- 微信支付遮盖层

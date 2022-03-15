@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+import { Button } from 'element-ui';
 
 // 三级联动组件 --- 全局组件
 import TypeNav from '@/components/TypeNav'
@@ -11,6 +12,8 @@ import Pagination from '@/components/Pagination'
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carouse.name, Carouse)
 Vue.component(Pagination.name, Pagination)
+Vue.component(Button.name, Button);
+
 
 // 引入路由
 import router from '@/router'
@@ -20,6 +23,10 @@ import store from '@/store'
 import '@/mock/mockServe'
 // 引入swiper样式
 import 'swiper/css/swiper.css'
+// 统一接口api文件夹里面全部请求函数
+import * as API from '@/api'
+
+console.log(API);
 
 // test
 // import {reqCategoryList} from '@/api/index'
@@ -30,6 +37,7 @@ const vm = new Vue({
   // 全局事件总线$bus配置
   beforeCreate(){
     Vue.prototype.$bus = this;
+    Vue.prototype.$API = API;
   },
   // 注册路由
   router,
