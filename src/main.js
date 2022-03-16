@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import { Button } from 'element-ui';
+import { Button, MessageBox } from 'element-ui';
 
 // 三级联动组件 --- 全局组件
 import TypeNav from '@/components/TypeNav'
@@ -12,7 +12,12 @@ import Pagination from '@/components/Pagination'
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carouse.name, Carouse)
 Vue.component(Pagination.name, Pagination)
+
+// 第一种注册
 Vue.component(Button.name, Button);
+// 第二种注册
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
 
 
 // 引入路由
@@ -25,12 +30,30 @@ import '@/mock/mockServe'
 import 'swiper/css/swiper.css'
 // 统一接口api文件夹里面全部请求函数
 import * as API from '@/api'
+import VueLazyload from 'vue-lazyload'
+import atm from '@/assets/images/lazyimg.jpg'
+
+Vue.use(VueLazyload, {
+  // preLoad: 1.3,
+  // error: atm,
+  loading: atm,
+  // attempt: 1
+})
 
 console.log(API);
 
 // test
 // import {reqCategoryList} from '@/api/index'
 // reqCategoryList();
+
+// 引入自定义插件
+// import myPlugin from '@/plugins/myPlugin';
+// Vue.use(myPlugin, {
+
+// })
+
+// 引入表单验证！！！！！
+import '@/plugins/validate';
 
 const vm = new Vue({
   render: h => h(App),

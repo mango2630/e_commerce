@@ -31,7 +31,7 @@ let router = new VueRouter({
 
 router.beforeEach( async (to, from, next)=>{
     // console.log(to, from);
-    console.log(store);
+    // console.log(store);
     let userInfo = store.state.user.userInfo.name;
 
     let token = store.state.user.token;
@@ -57,8 +57,15 @@ router.beforeEach( async (to, from, next)=>{
                 }
             }
         }
-    }else{
-        next();
+    }else{ // 未登录：不能去(trade/pay/paysuccess/center)
+        let toPath = to.path;
+        if(toPath.indexOf('/trade')!=-1 || toPath.indexOf('/pay')!=-1||toPath.indexOf('/center')!=-1){
+          //把未登录的时候向去而没有去成的信息，存储于地址栏中【路由】
+            next('/login?redirect='+toPath);
+        }else{
+           //去的不是上面这些路由（home|search|shopCart）---放行
+            next();
+        }
     }
     
 })

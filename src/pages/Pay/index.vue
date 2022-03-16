@@ -82,11 +82,14 @@
 </template>
 
 <script>
+import QRCode from 'qrcode'
+import axios from 'axios'
   export default {
     name: 'Pay',
     data(){
       return {
-        payInfo: {}
+        payInfo: {},
+        code: '' // 支付状态码
       }
     },
     mounted(){
@@ -97,7 +100,13 @@
       async getPayInfo(){
         let res = await this.$API.reqPayInfo(this.$route.query.orderId)
         if(res.code == 200){
-          console.log(res.data);
+          // console.log(res.data);
+          /* 
+            codeUrl: "weixin://wxpay/bizpayurl?pr=jKmu8Jgzz"
+            orderId: (…)
+            resultCode: (…)
+            totalFee: (…)
+          */
           this.payInfo = res.data;
           /* 
           codeUrl: "weixin://wxpay/bizpayurl?pr=UGtDeZvzz"
@@ -105,6 +114,67 @@
           resultCode: "SUCCESS"
           totalFee: 5994 */
         }
+      },
+      async payTrade(){
+        // 生成二维码地址
+        let code = await QRCode.toDataURL(this.payInfo.codeUrl)
+        // console.log(code);
+
+        this.$alert(`<img src=${code} />`, '请微信支付', {
+          dangerouslyUseHTMLString: true,
+          center: true,
+          showCancelButton: true,
+          cancelButtonText: '支付遇见问题',
+          confirmButtonText: '已支付成功',
+          showClose: false,
+          beforeClose: (buttonType, instance, done)=>{
+            console.log(buttonType, instance);
+
+            // 关闭
+            // done()
+
+            if(buttonType == 'concel'){
+              alert('请联系管理员！')
+              clearInterval(this.timer)
+              this.timer = null;
+              done();
+            }else{
+              // 判断是否真的支付
+              // if(this.code == 200){
+                /* 
+                  关闭定时器
+                  清除定时器
+                  路由跳转
+                */
+                clearInterval(this.timer)
+                this.timer = null;
+                done()
+                this.$router.push('/paysuccess')
+              // }
+            }
+          }
+        });
+
+        // 查询支付结果 
+        if(!this.timer){
+          this.timer = setInterval(async ()=>{
+            let res = await this.$API.reqPayResult(this.payInfo.orderId)
+            console.log(res);
+
+            if(res.code == 200){
+              // 清除定时器
+              clearInterval(this.timer);
+              this.timer = null;
+              this.code = res.code
+              // 去除 二维码
+              this.$msgbox.close();
+              // 跳转路由
+              this.$router.push('/paysuccess')
+            }
+          }, 1000)
+        }
+
+        
       }
     }
   }

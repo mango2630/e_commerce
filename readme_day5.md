@@ -150,3 +150,50 @@ params传参。
 - 立即支付
 - 引入element-ui
 - 微信支付遮盖层
+- 生成二维码： qrcode 
+
+### 个人中心
+- 我的订单
+- 团购订单
+- 二级路由
+- 分页
+- 守卫
+
+
+### 路由独享守卫
+1. trade 必须来自 shopcart
+
+~~~ js
+{
+        path: '/pay',
+        component: Pay,
+        name: 'pay',
+        meta: {isShow: true},
+        beforeEnter: (to, from, next) => {
+            // 必须来自 trade
+            if(from.path == '/trade'){
+                next('')
+            }else{
+                next(false)
+            }
+        }
+    },
+~~~
+
+### 组件内守卫
+
+### 图片懒加载
+- `vue-lazyload`
+- Vue.use的过程。
+
+
+### 自定义指令
+
+### 表单验证
+vee-validate
+
+### 路由懒加载！
+
+
+### 打包上线！！！
+npm run build

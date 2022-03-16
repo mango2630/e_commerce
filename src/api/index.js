@@ -152,3 +152,19 @@ export const reqPayInfo = (orderId) => {
         method: 'GET'
     })
 }
+
+// 获取支付结果
+export const reqPayResult = (orderId) => {
+    return requests({
+        url: `/payment/weixin/queryPayStatus/${orderId}`,
+        method: 'GET'
+    })
+}
+
+// 获取我的订单列表
+export const reqOrderList = (page, limit)=>{
+    return requests({
+        url: `/order/auth/${page}/${limit}`,
+        data: 'GET'
+    })
+}

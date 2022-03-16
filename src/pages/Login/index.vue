@@ -66,6 +66,7 @@
 </template>
 
 <script>
+
   export default {
     name: 'Login',
     data(){
@@ -80,7 +81,12 @@
           const {phone, password} = this;
           phone && password && await this.$store.dispatch('userLogin', {phone, password})
           // 成功
-          this.$router.push('/home')
+          /*  
+            如果路由中有query参数，跳到query参数；否则跳转到/home
+          */
+          let toPath = this.$route.query.redirect || '/home'
+          this.$router.push(toPath)
+          
         }catch(error){
           console.log(error.message);
         }

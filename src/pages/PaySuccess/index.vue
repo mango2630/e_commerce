@@ -9,7 +9,8 @@
       <div class="paydetail">
         <p class="button">
           <router-link class="btn-look" to="/center">查看订单</router-link>
-          <router-link class="btn-goshop" to="/">继续购物</router-link>
+          <!-- 回到首页！ -->
+          <router-link class="btn-goshop" to="/home">继续购物</router-link>
         </p>
       </div>
     </div>
@@ -20,6 +21,16 @@
 <script>
   export default {
     name: 'PaySuccess',
+    // 组件内守卫
+    beforeRouteEnter (to, from, next) {
+      // 不能获取组件实例this
+      // 因为守卫执行前，组件实例还没被创建
+      if(from.path == '/pay'){
+        next()
+      }else{
+        next(false)
+      }
+    }
   }
 </script>
 
