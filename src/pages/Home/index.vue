@@ -11,6 +11,7 @@
             v-for="item in floorList" 
             :key="item.id"
             :list="item"></Floor>
+            
         <Brand></Brand>
 
         <!-- <button @click="add" >点我+1</button>

@@ -27,10 +27,10 @@ const actions = {
     // 用户登录
     async userLogin({ commit }, data) {
         /* 
-        name: "19407010204"
-        nickName: "19407010204"
-        token: "20bebc4fa83740bf83f9cd2cb1efeb32"
-        userId: 17193
+            name: "19407010204"
+            nickName: "19407010204"
+            token: "20bebc4fa83740bf83f9cd2cb1efeb32"
+            userId: 17193
         */
         let res = await reqLogin(data);
         //服务器下发token，用户唯一标识符(uuid)

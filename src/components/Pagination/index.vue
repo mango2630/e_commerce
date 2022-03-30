@@ -2,33 +2,33 @@
 <div class="pagination">
     <!-- 上 -->
     <button 
-    :disabled="pageNo == 1"
-    @click="$emit('getPageNo', pageNo-1)">上一页</button>
-    <button 
-    v-if="startNumberAndEndNumber.start >= 2"
-    :class="{active:pageNo == 1}">1</button>
+        :disabled="pageNo == 1"
+        @click="$emit('getPageNo', pageNo-1)">上一页</button>
+        <button 
+        v-if="startNumberAndEndNumber.start >= 2"
+        :class="{active:pageNo == 1}">1</button>
     <button
-    v-if="startNumberAndEndNumber.start >= 2" >···</button>
+        v-if="startNumberAndEndNumber.start >= 2" >···</button>
 
     <!-- 中间部分 -->
     <button 
-    v-for="(item, index) in startNumberAndEndNumber.end" 
-    :key="index"
-    v-if="item >= startNumberAndEndNumber.start"
-    @click="$emit('getPageNo', item)"
-    :class="{active:pageNo == item}">{{item}}</button>
+        v-for="(item, index) in startNumberAndEndNumber.end" 
+        :key="index"
+        v-if="item >= startNumberAndEndNumber.start"
+        @click="$emit('getPageNo', item)"
+        :class="{active:pageNo == item}">{{item}}</button>
 
 
     <!-- 下 -->
     <button v-if="startNumberAndEndNumber.end < totalPage - 1">···</button>
     <button 
-    v-if="startNumberAndEndNumber.end < totalPage"
-    @click="$emit('getPageNo', totalPage)"
-    :class="{active:pageNo==totalPage}">{{totalPage}}</button>
+        v-if="startNumberAndEndNumber.end < totalPage"
+        @click="$emit('getPageNo', totalPage)"
+        :class="{active:pageNo==totalPage}">{{totalPage}}</button>
 
     <button 
-    :disabled="pageNo==totalPage"
-    @click="$emit('getPageNo', pageNo+1)">下一页</button>
+        :disabled="pageNo==totalPage"
+        @click="$emit('getPageNo', pageNo+1)">下一页</button>
 
     <button style="margin-left:30px">
         共 {{total}} 条

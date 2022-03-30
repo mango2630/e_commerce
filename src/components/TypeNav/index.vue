@@ -95,9 +95,9 @@ export default {
         // console.log(index);
         // 防抖 loadash _.debounce
         // 与节流 loadash _.throttle
-        /*  changeIndex(index){
-            this.currentIndex = index;
-        }, */
+        // changeIndex(index){
+        //     this.currentIndex = index;
+        // },
         changeIndex: throttle(function(index){
             this.currentIndex = index;
         }, 50),

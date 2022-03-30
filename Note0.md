@@ -32,6 +32,7 @@ mounted(){
   ~~~ shell
   npm install swiper@5
   ~~~
+  
 - 最完美解决轮播图方案：watch + nextTick。
   - nextTick：一种生命周期函数。
   - 在下次DOM更新循环结束之后执行延迟回调。

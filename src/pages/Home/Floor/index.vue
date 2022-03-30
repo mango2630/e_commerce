@@ -24,9 +24,11 @@
                         </ul>
                         <img :src="list.imgUrl" />
                     </div>
+                    <!-- 轮播图 -->
                     <div class="floorBanner">
                         <Carouse :bannerList="list.carouselList" ></Carouse>
                     </div>
+                    <!-- end -->
                     <div class="split">
                         <span class="floor-x-line"></span>
                         <div class="floor-conver-pit">

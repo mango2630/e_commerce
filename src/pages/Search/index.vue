@@ -27,8 +27,9 @@
         </div>
 
         <!--selector-->
-        <SearchSelector @trademarkInfo="trademarkInfo"
-        @attrInfo='attrInfo' />
+        <SearchSelector 
+            @trademarkInfo="trademarkInfo"
+            @attrInfo='attrInfo' />
 
         <!--details-->
         <div class="details clearfix">
@@ -89,11 +90,11 @@
             </div>
 
             <Pagination 
-            :pageNo='searchParams.pageNo'
-            :pageSize="searchParams.pageSize"
-            :total="total"
-            :continues="5" 
-            @getPageNo = "getPageNo" />
+                :pageNo='searchParams.pageNo'
+                :pageSize="searchParams.pageSize"
+                :total="total"
+                :continues="5" 
+                @getPageNo = "getPageNo" />
         </div>
         
         </div>

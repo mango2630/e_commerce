@@ -13,6 +13,8 @@ Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carouse.name, Carouse)
 Vue.component(Pagination.name, Pagination)
 
+
+// 引入 element-ui 框架
 // 第一种注册
 Vue.component(Button.name, Button);
 // 第二种注册
@@ -28,6 +30,8 @@ import store from '@/store'
 import '@/mock/mockServe'
 // 引入swiper样式
 import 'swiper/css/swiper.css'
+
+
 // 统一接口api文件夹里面全部请求函数
 import * as API from '@/api'
 import VueLazyload from 'vue-lazyload'
